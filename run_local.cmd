@@ -22,7 +22,7 @@ if not exist "%VENV_PY%" (
 echo Installing dependencies...
 "%VENV_PY%" -m pip install --upgrade pip
 if errorlevel 1 goto :fail
-"%VENV_PY%" -m pip install -r requirements.txt
+"%VENV_PY%" -m pip install -r requirements-local.txt
 if errorlevel 1 goto :fail
 
 if not exist "social_media_impact_pipeline.joblib" (

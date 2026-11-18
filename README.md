@@ -15,10 +15,13 @@ An interactive Streamlit dashboard that predicts whether a student's social-medi
 
 | File | Purpose |
 | --- | --- |
-| `app.py` | Streamlit dashboard application |
-| `requirements.txt` | Python dependencies |
+| `api/index.py` | FastAPI app and Vercel entrypoint (`app`) |
+| `vercel.json` | Routes Vercel requests to the FastAPI app |
+| `app.py` | Streamlit dashboard for local use |
+| `requirements.txt` | Dependencies for Vercel / FastAPI |
+| `requirements-local.txt` | Local Streamlit dependencies (includes `requirements.txt`) |
 | `social_media_impact_pipeline.joblib` | Trained model and fitted preprocessors |
-| `run_local.cmd` | Windows one-click setup and launch script |
+| `run_local.cmd` | Windows one-click Streamlit setup and launch script |
 | `Machine_Learning_Project_Complete.ipynb` | Training and model-export notebook |
 | `streamlit_web_application.py` | Earlier standalone prototype |
 
@@ -29,7 +32,7 @@ An interactive Streamlit dashboard that predicts whether a student's social-medi
 Double-click `run_local.cmd`. It will:
 
 1. Create a local `.venv` virtual environment if needed.
-2. Install/refresh packages from `requirements.txt`.
+2. Install/refresh packages from `requirements-local.txt`.
 3. Start Streamlit at `http://localhost:8501` and open it in your browser automatically.
 
 ### Manual
@@ -37,7 +40,7 @@ Double-click `run_local.cmd`. It will:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-local.txt
 streamlit run app.py
 ```
 
@@ -45,13 +48,31 @@ Or, without activating the environment:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-local.txt
 .\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+## Deploy to Vercel
+
+Vercel uses `api/index.py`, which exports the FastAPI `app` variable expected by the Python runtime. `vercel.json` routes `/`, `/predict`, and `/health` to that function.
+
+1. Import `https://github.com/ahzahid81/ML_Project.git` in Vercel.
+2. Keep the default **Framework Preset** as **Other** and the **Root Directory** as the repository root.
+3. Vercel installs `requirements.txt` and builds automatically from `main`.
+4. Visit `/health`; it should return `{"status":"ok"}`.
+
+The Vercel page provides the same 14-input form, three sample presets, team cards, confidence chart, and wellness recommendations as the Streamlit version.
+
+To test the API locally:
+
+```powershell
+pip install -r requirements.txt
+uvicorn api.index:app --reload
 ```
 
 ## Model bundle
 
-The app expects `social_media_impact_pipeline.joblib` in the same folder as `app.py`. If it is missing, the dashboard shows a clear error and stops. Regenerate it by running the final export cell of `Machine_Learning_Project_Complete.ipynb`, then copy the file next to `app.py`.
+Both apps expect `social_media_impact_pipeline.joblib` at the repository root: next to `app.py` for Streamlit, and one level above `api/index.py` for Vercel. If it is missing, the app shows a clear error and stops. Regenerate it by running the final export cell of `Machine_Learning_Project_Complete.ipynb`, then copy the file to the repository root.
 
 `scikit-learn` is pinned to `1.6.1` in `requirements.txt` because that is the version used to create the bundle. Newer versions can raise errors such as `'SimpleImputer' object has no attribute '_fill_dtype'`. Re-run `run_local.cmd` after pulling changes to apply the pinned version.
 
