@@ -30,7 +30,7 @@ Double-click `run_local.cmd`. It will:
 
 1. Create a local `.venv` virtual environment if needed.
 2. Install/refresh packages from `requirements.txt`.
-3. Start Streamlit at `http://localhost:8501`.
+3. Start Streamlit at `http://localhost:8501` and open it in your browser automatically.
 
 ### Manual
 

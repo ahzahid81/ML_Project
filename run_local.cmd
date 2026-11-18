@@ -32,6 +32,7 @@ if not exist "social_media_impact_pipeline.joblib" (
 
 echo.
 echo Starting Streamlit at http://localhost:8501
+start "" powershell -NoProfile -Command "Start-Sleep -Seconds 4; Start-Process 'http://localhost:8501'"
 "%VENV_PY%" -m streamlit run app.py
 if errorlevel 1 goto :fail
 
