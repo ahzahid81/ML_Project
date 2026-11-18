@@ -455,7 +455,7 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
     for preset_name in PRESETS:
-        if st.button(preset_name, key=f"preset_{preset_name}", use_container_width=True):
+        if st.button(preset_name, key=f"preset_{preset_name}", width="stretch"):
             apply_preset(preset_name)
             st.rerun()
     st.divider()
@@ -555,7 +555,7 @@ st.divider()
 
 action_col, auto_col, note_col = st.columns([1.1, 1.1, 3])
 with action_col:
-    predict_clicked = st.button("Predict Impact", type="primary", use_container_width=True)
+    predict_clicked = st.button("Predict Impact", type="primary", width="stretch")
 with auto_col:
     auto_predict = st.toggle("Auto-predict", value=False, key="auto_predict")
 with note_col:
@@ -655,7 +655,7 @@ if "last_prediction" in st.session_state:
             st.bar_chart(confidence)
             st.dataframe(
                 confidence.sort_values("Confidence (%)", ascending=False),
-                use_container_width=True,
+                width="stretch",
             )
         else:
             st.info("This classifier does not expose probability estimates.")

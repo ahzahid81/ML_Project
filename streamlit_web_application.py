@@ -78,7 +78,7 @@ with col3:
 st.divider()
 
 # Prediction Button
-if st.button("🔍 Predict Overall Impact", type="primary", use_container_width=True):
+if st.button("🔍 Predict Overall Impact", type="primary", width="stretch"):
     # 1. Construct raw input DataFrame matching training columns
     input_df = pd.DataFrame([{
         "Age": age,
@@ -163,6 +163,6 @@ if st.button("🔍 Predict Overall Impact", type="primary", use_container_width=
                 "Probability (%)": np.round(probs * 100, 2)
             }).set_index("Impact Category")
             st.bar_chart(prob_df)
-            st.dataframe(prob_df, use_container_width=True)
+            st.dataframe(prob_df, width="stretch")
         else:
             st.info("Probability breakdown is not available for this classifier (e.g., hinge-loss SGD). Switch loss to `log_loss` in tuning to enable probabilities.")

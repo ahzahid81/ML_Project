@@ -91,3 +91,4 @@ The included `.gitignore` excludes Python bytecode, virtual environments, local 
 - **`Model bundle not found`** — keep `social_media_impact_pipeline.joblib` beside `app.py`.
 - **`Python was not found on PATH`** — install Python 3.9+ and enable **Add Python to PATH** during setup.
 - **Port 8501 already in use** — run `streamlit run app.py --server.port 8502`.
+- **Cloud URL redirects to a login page** — the Cloud app is not publicly reachable. Verify the exact URL from your workspace, then open **App settings -> Sharing** and set **Who can view this app** to **This app is public and searchable**. If it is already public, check **Manage app -> Logs** for a failed deploy.
